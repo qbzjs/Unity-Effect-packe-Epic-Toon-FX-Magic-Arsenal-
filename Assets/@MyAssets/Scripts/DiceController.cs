@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class DiceController : MonoBehaviour
 {
-    public GameObject diceSpeenButton;
+    public Button diceSpeenButton;
+    [SerializeField] GameObject _camera;
     [SerializeField] Rigidbody _rb;
     [SerializeField] LayerMask _layerMask;
 
@@ -31,7 +33,9 @@ public class DiceController : MonoBehaviour
                 }
             }
         }*/
-
+        var pos = transform.position;
+        pos.y += 1;
+        _camera.transform.position = pos;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -53,7 +57,6 @@ public class DiceController : MonoBehaviour
     public void ShowButton()
     {
         diceSpeenButton.transform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack);
-        _active = true;
     }
 
     public void HideButton()
@@ -71,15 +74,27 @@ public class DiceController : MonoBehaviour
          });*/
         if (_active)
         {
+            diceSpeenButton.transform.DOScale(new Vector3(0.9f, 0.9f, 0.9f), 0.1f).SetEase(Ease.Linear).OnComplete(() =>
+            {
+                diceSpeenButton.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.Linear);
+                diceSpeenButton.interactable = false;
+            });
             _active = false;
             Vector3 rot = new Vector3(Random.Range(-200, 200), Random.Range(-200, 200), Random.Range(-200, 200));
+            if (rot == Vector3.zero)
+            {
+                Debug.Log("zero");
+                rot.x = 150;
+                rot.y = -90;
+                rot.z = 50;
+            }
             //Vector3 rot = new Vector3(Random.Range(0, 500), Random.Range(0, 500), Random.Range(0, 500));
-            var speed = Random.Range(50, 100);
-            var hight = Random.Range(700, 800);
+            //var speed = Random.Range(50, 100);
+            var hight = Random.Range(1000, 2000);
             _rb.AddForce(Vector3.up * hight, ForceMode.Impulse);
-            _rb.AddRelativeTorque(rot * speed, ForceMode.Acceleration);
+            _rb.AddRelativeTorque(rot * hight, ForceMode.Acceleration);
             //_rb.AddTorque(rot * speed, ForceMode.Impulse);
-            HideButton();
+            //HideButton();
             StartCoroutine(CheckButton());
         }
     }
@@ -87,8 +102,13 @@ public class DiceController : MonoBehaviour
     IEnumerator CheckButton()
     {
         //yield return new WaitForSeconds(5);
-        yield return new WaitUntil(() => _rb.angularVelocity == Vector3.zero);
-        yield return new WaitForSeconds(1);
-        ShowButton();
+        yield return new WaitUntil(() => (_rb.velocity.y < 0 ? true : false));
+        yield return new WaitUntil(() => _rb.velocity == Vector3.zero);
+        //yield return new WaitForSeconds(1);
+        var gameController = GameController.instance;
+        gameController.allGunController[gameController.currentDiceNumber - 1].Shoot();
+        diceSpeenButton.interactable = true;
+        _active = true;
+        //ShowButton();
     }
 }

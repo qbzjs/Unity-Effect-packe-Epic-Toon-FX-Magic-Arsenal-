@@ -3,10 +3,13 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour
 {
     public static GameController instance;
+    public int currentDiceNumber;
+    public List<GunController> allGunController;
 
     public static event Action OnGameStart = delegate { };
     public static event Action<bool> OnGameFinish = delegate { };
