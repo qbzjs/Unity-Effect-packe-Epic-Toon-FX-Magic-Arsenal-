@@ -2038,7 +2038,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.25
-  m_Speed: 0.15
+  m_Speed: 0.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 180
@@ -2066,7 +2066,7 @@ MonoBehaviour:
   _anim: {fileID: 8949859360765514503}
   damagePoint: {fileID: 4413126172505735162}
   isGirl: 0
-  isSiting: 0
+  isTargeted: 0
   _isExit: 0
 --- !u!1 &8169845285937070465
 GameObject:

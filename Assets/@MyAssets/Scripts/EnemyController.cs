@@ -21,11 +21,29 @@ public class EnemyController : MonoBehaviour
         {
             instance = this;
         }
+        GameController.OnGameStart += EnemyControllerOnGameStart;
+        GameController.OnGameFinish += EnemyControllerOnGameFinish;
+    }
+    void EnemyControllerOnGameStart()
+    {
+        GameController.OnGameStart -= EnemyControllerOnGameStart;
+        enabled = true;
+        //instanceSpawing(10);
+        for (int i = 0; i < allEnemy.Count; i++)
+        {
+            SetPosition(allEnemy[i]);
+        }
+    }
+    void OnDestroy()
+    {
+        GameController.OnGameStart -= EnemyControllerOnGameStart;
+        GameController.OnGameFinish -= EnemyControllerOnGameFinish;
     }
 
-    private void Start()
+    void EnemyControllerOnGameFinish(bool state)
     {
-        instanceSpawing(10);
+        GameController.OnGameFinish -= EnemyControllerOnGameFinish;
+        enabled = false;
     }
 
     IEnumerator SpawnCustomer(int numberOfEnemy)
@@ -33,12 +51,12 @@ public class EnemyController : MonoBehaviour
         for (int i = 0; i < numberOfEnemy; i++)
         {
             yield return new WaitForSeconds(1);
-            if (allEnemy.Count < maxEnemyCount)
-            {
-                var t = Instantiate(enemy, enemyInstantiatePoint.position, enemyInstantiatePoint.rotation);
-                allEnemy.Add(t);
-                SetPosition(t);
-            }
+            /*if (allEnemy.Count < maxEnemyCount)
+            {*/
+            var t = Instantiate(enemy, enemyInstantiatePoint.position, enemyInstantiatePoint.rotation);
+            allEnemy.Add(t);
+            SetPosition(t);
+            //}
         }
     }
 
@@ -58,5 +76,13 @@ public class EnemyController : MonoBehaviour
         }
 
         enemy.SetTarget(pos);
+    }
+
+    public void CheckForNewWave()
+    {
+        if (allEnemy.Count.Equals(0))
+        {
+            //instanceSpawing(10);
+        }
     }
 }
