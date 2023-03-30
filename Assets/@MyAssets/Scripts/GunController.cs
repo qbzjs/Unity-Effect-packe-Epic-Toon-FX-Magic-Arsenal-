@@ -7,7 +7,7 @@ public class GunController : MonoBehaviour
 {
     [SerializeField] Transform startPoint;
     [SerializeField] Transform endPoint;
-    [SerializeField] ParticleSystem bullet;
+    [SerializeField] ParticleSystem bullet, demage;
     public void Shoot()
     {
         bullet.transform.position = startPoint.position;
