@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     public Transform damagePoint;
 
     public bool isGirl;
-    public bool isSiting;
+    public bool isTargeted;
     EnemyController _enemyController;
     Action _action;
     Vector3 _target;
@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         StartCoroutine(EditUpdate());
-        StartCoroutine(PlaySitingAnimation());
+        //StartCoroutine(PlaySitingAnimation());
     }
 
     IEnumerator EditUpdate()
@@ -133,7 +133,7 @@ public class Enemy : MonoBehaviour
         temp.GetComponent<ParticleSystem>().Play();
     }*/
 
-    private List<string> aniprm = new List<string> { "Task_1", "Task_2", "Task_3", "Task_4", "Task_5" };
+    /*private List<string> aniprm = new List<string> { "Task_1", "Task_2", "Task_3", "Task_4", "Task_5" };
 
     IEnumerator PlaySitingAnimation()
     {
@@ -144,5 +144,5 @@ public class Enemy : MonoBehaviour
 
         yield return new WaitForSeconds(Helper.RandomInt(10, 25));
         StartCoroutine(PlaySitingAnimation());
-    }
+    }*/
 }
