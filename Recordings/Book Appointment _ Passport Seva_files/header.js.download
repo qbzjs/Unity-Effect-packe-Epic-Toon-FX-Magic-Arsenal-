@@ -1,1 +1,0 @@
-function mischandler(){return!1}function mousehandler(e){{var n=isNS?e:event,t=isNS?n.which:n.button;n.button}return 2==t||3==t?!1:void 0}var isNS="Netscape"==navigator.appName?1:0;"Netscape"==navigator.appName&&document.captureEvents(Event.MOUSEDOWN||Event.MOUSEUP),document.oncontextmenu=mischandler,document.onmousedown=mousehandler,document.onmouseup=mousehandler;

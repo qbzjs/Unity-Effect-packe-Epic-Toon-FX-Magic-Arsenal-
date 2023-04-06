@@ -69,7 +69,6 @@ public class GunController : MonoBehaviour
                         enemyController.allEnemy.Remove(enemy);
                         Destroy(enemy.gameObject);
                         enemyController.CheckForNewWave();
-
                     });
                 }
 
