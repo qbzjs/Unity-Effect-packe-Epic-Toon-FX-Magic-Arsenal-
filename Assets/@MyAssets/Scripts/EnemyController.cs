@@ -85,4 +85,12 @@ public class EnemyController : MonoBehaviour
             //instanceSpawing(10);
         }
     }
+
+    public void StopAllEnemy()
+    {
+        for (int i = 0; i < allEnemy.Count; i++)
+        {
+            allEnemy[i].StopAgent();
+        }
+    }
 }
