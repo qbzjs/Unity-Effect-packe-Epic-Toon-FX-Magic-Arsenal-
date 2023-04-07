@@ -37,11 +37,12 @@ public class GunController : MonoBehaviour
         }
     }
 
-    public void Shoot()
+    public void Shoot(int count)
     {
         var pos = endPoint.position;
+        StartCoroutine(ShootBullet(count));
         //var enemyController = EnemyController.instance;
-        Enemy enemy = null;
+        /*Enemy enemy = null;
         if (enemyController.allEnemy.Count != 0)
         {
             enemy = enemyController.allEnemy.Find(x => x.isTargeted == false);
@@ -49,7 +50,6 @@ public class GunController : MonoBehaviour
             {
                 pos = enemy.damagePoint.position;
             }
-
         }
         gun.transform.DOLookAt(pos, 0.2f).OnComplete(() =>
         {
@@ -73,6 +73,53 @@ public class GunController : MonoBehaviour
                 }
 
             });
-        });
+        });*/
+    }
+
+    IEnumerator ShootBullet(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            yield return new WaitForSeconds(0.5f);
+            var pos = endPoint.position;
+            Enemy enemy = null;
+            if (enemyController.allEnemy.Count != 0)
+            {
+                enemy = enemyController.allEnemy.Find(x => x.isTargeted == false);
+                if (enemy)
+                {
+                    enemy.isTargeted = true;
+                    pos = enemy.damagePoint.position;
+                }
+            }
+            gun.transform.DOLookAt(pos, 0.2f).OnComplete(() =>
+            {
+                var temp = Instantiate(bullet, startPoint.position, Quaternion.identity);
+                //bullet.transform.position = startPoint.position;
+                temp.gameObject.Show();
+                temp.transform.LookAt(pos);
+                temp.transform.DOMove(pos, 0.7f).SetEase(Ease.Linear).OnComplete(() =>
+                {
+                    gun.transform.DORotate(Vector3.zero, 0.2f);
+                    //bullet.gameObject.Hide();
+                    Destroy(temp.gameObject);
+                    /*demage.transform.position = pos;
+                    demage.Play();*/
+                    var efect = Instantiate(demage, pos, Quaternion.identity);
+                    efect.Play();
+                    if (enemy)
+                    {
+                        enemy.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() =>
+                        {
+                            enemyController.allEnemy.Remove(enemy);
+                            Destroy(enemy.gameObject);
+                            enemyController.CheckForNewWave();
+                            Destroy(efect);
+                        });
+                    }
+
+                });
+            });
+        }
     }
 }
