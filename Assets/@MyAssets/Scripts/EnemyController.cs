@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class EnemyController : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class EnemyController : MonoBehaviour
     public Transform enemyInstantiatePoint;
     //public TicketController ticketController;
     public List<Enemy> allEnemy;
+    public List<Enemy> wave2AllEnemy;
+    public List<Enemy> wave3AllEnemy;
+    public List<Enemy> wave4AllEnemy;
 
     protected void Awake()
     {
@@ -80,9 +84,53 @@ public class EnemyController : MonoBehaviour
 
     public void CheckForNewWave()
     {
-        if (allEnemy.Count.Equals(0))
+        if (allEnemy.Count < 10)
         {
             //instanceSpawing(10);
+            if (wave2AllEnemy.Count.Equals(0))
+            {
+                if (wave3AllEnemy.Count.Equals(0))
+                {
+                    if (wave4AllEnemy.Count.Equals(0))
+                    {
+                        if (allEnemy.Count.Equals(0)) LevelManager.instance.WinLevel();
+                    }
+                    else
+                    {
+                        StartCoroutine(ActiveWave2(wave4AllEnemy));
+                    }
+                }
+                else
+                {
+                    StartCoroutine(ActiveWave2(wave3AllEnemy));
+                }
+            }
+            else
+            {
+                StartCoroutine(ActiveWave2(wave2AllEnemy));
+            }
+        }
+
+    }
+
+    IEnumerator ActiveWave2(List<Enemy> enemys)
+    {
+        for (int i = enemys.Count - 1; i >= 0; i--)
+        {
+            var temp = i;
+            //wave2AllEnemy[i].Show();
+            enemys[temp].transform.DOScale(Vector3.one, 0.2f).OnComplete(() =>
+            {
+                allEnemy.Add(enemys[temp]);
+                enemys.Remove(enemys[temp]);
+                enemys.Remove(enemys[temp]);
+            });
+            //SetPosition(wave2AllEnemy[temp]);
+        }
+        yield return new WaitForSeconds(2);
+        for (int i = 0; i < allEnemy.Count; i++)
+        {
+            SetPosition(allEnemy[i]);
         }
     }
 
@@ -91,6 +139,10 @@ public class EnemyController : MonoBehaviour
         for (int i = 0; i < allEnemy.Count; i++)
         {
             allEnemy[i].StopAgent();
+        }
+        for (int i = 0; i < wave2AllEnemy.Count; i++)
+        {
+            wave2AllEnemy[i].StopAgent();
         }
     }
 }

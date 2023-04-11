@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
     public static GameController instance;
     public int currentDiceNumber;
     public List<GunController> allGunController;
+    public DiceController diceController;
 
     public static event Action OnGameStart = delegate { };
     public static event Action<bool> OnGameFinish = delegate { };
@@ -27,10 +28,6 @@ public class GameController : MonoBehaviour
     internal static int GamePlayCount { get; private set; } = 0;
     internal static int Attempts { get; private set; } = 0;
 
-    [SerializeField]
-    TextMeshProUGUI levelText;
-    [SerializeField]
-    Canvas victoryPanel, gameOverPanel;
 #if UNITY_EDITOR
     [ContextMenu("Remove Null Events")]
     void RemoveNullEntryFromEvents()

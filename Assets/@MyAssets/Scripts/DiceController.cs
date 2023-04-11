@@ -14,28 +14,10 @@ public class DiceController : MonoBehaviour
     bool _active = true;
     bool _isStop;
 
-    void Update()
+    /*void Update()
     {
-        /*if ((Input.touchCount > 0) && (Input.GetTouch(0).phase == TouchPhase.Began))
-        {
-            Ray raycast = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
-            RaycastHit raycastHit;
-            if (Physics.Raycast(raycast, out raycastHit))
-            {
-                Debug.Log("Something Hit");
-                if (raycastHit.collider.name == "Dice")
-                {
-                    Debug.Log("Dice clicked");
-                }
-
-                if (raycastHit.collider.CompareTag("Dice"))
-                {
-                    Debug.Log("Dice clicked");
-                }
-            }
-        }*/
         var pos = transform.position;
-        pos.y += 1;
+        pos.y += 1.5f;
         _camera.transform.position = pos;
 
         if (Input.GetMouseButtonDown(0))
@@ -53,7 +35,7 @@ public class DiceController : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
@@ -85,13 +67,14 @@ public class DiceController : MonoBehaviour
     {
         if (_active)
         {
+
             diceSpeenButton.transform.DOScale(new Vector3(0.9f, 0.9f, 0.9f), 0.1f).SetEase(Ease.Linear).OnComplete(() =>
             {
                 diceSpeenButton.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.Linear);
                 diceSpeenButton.interactable = false;
             });
             _active = false;
-            Vector3 rot = new Vector3(Random.Range(-200, 200), Random.Range(-200, 200), Random.Range(-200, 200));
+            Vector3 rot = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
             if (rot == Vector3.zero)
             {
                 Debug.Log("zero");
@@ -101,9 +84,9 @@ public class DiceController : MonoBehaviour
             }
             var speed = Random.Range(1000, 2000);
             //var count = Random.Range(1, 5);
-            transform.DORotate(new Vector3(360, 360, 0), speed, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetRelative().SetEase(Ease.Linear).SetSpeedBased().SetId(transform);
+            transform.DORotate(new Vector3(360, 360, 360), speed, RotateMode.FastBeyond360).SetLoops(-1, LoopType.Restart).SetRelative().SetEase(Ease.Linear).SetSpeedBased().SetId(transform);
 
-            var hight = Random.Range(1000, 2000);
+            var hight = Random.Range(1000, 3000);
             _rb.AddForce(Vector3.up * hight, ForceMode.Impulse);
             _rb.AddRelativeTorque(rot * hight, ForceMode.Acceleration);
             StartCoroutine(CheckButton());
@@ -155,6 +138,7 @@ public class DiceController : MonoBehaviour
         //yield return new WaitForSeconds(1);
         var gameController = GameController.instance;
         gameController.allGunController[gameController.currentDiceNumber - 1].Shoot(gameController.currentDiceNumber);
+        diceSpeenButton.gameObject.Hide();
         diceSpeenButton.interactable = true;
         _active = true;
         //ShowButton();

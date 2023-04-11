@@ -16,7 +16,7 @@ public class GunController : MonoBehaviour
 
     private void Start()
     {
-        enemyController = EnemyController.instance;
+        enemyController = EnemyController.instance;    
         var temp = GetComponentsInChildren<Rigidbody>();
         for (int i = 0; i < temp.Length; i++)
         {
@@ -28,12 +28,12 @@ public class GunController : MonoBehaviour
     {
         if (other.TryGetComponent(out Enemy enemy))
         {
-            Debug.Log("Destroy");
             enemyController.StopAllEnemy();
             for (int i = 0; i < _allGunPart.Count; i++)
             {
                 _allGunPart[i].isKinematic = false;
             }
+            LevelManager.instance.FailLevel();
         }
     }
 
@@ -120,6 +120,10 @@ public class GunController : MonoBehaviour
 
                 });
             });
+            /*if (i.Equals(count - 1))
+            {
+                GameController.instance.diceController.diceSpeenButton.Show();
+            }*/
         }
     }
 }
