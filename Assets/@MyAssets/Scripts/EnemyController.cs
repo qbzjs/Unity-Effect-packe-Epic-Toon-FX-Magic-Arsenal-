@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour
     public List<Enemy> wave2AllEnemy;
     public List<Enemy> wave3AllEnemy;
     public List<Enemy> wave4AllEnemy;
+    public Enemy enemyBoss;
 
     protected void Awake()
     {
@@ -93,7 +94,25 @@ public class EnemyController : MonoBehaviour
                 {
                     if (wave4AllEnemy.Count.Equals(0))
                     {
-                        if (allEnemy.Count.Equals(0)) LevelManager.instance.WinLevel();
+                        if (allEnemy.Count.Equals(0))
+                        {
+                            if (enemyBoss == null)
+                            {
+                                LevelManager.instance.WinLevel();
+                            }
+                            else
+                            {
+                                enemyBoss.transform.DOScale(Vector3.one, 0.2f).OnComplete(() =>
+                                {
+                                    allEnemy.Add(enemyBoss);
+                                    enemyBoss = null;
+                                    for (int i = 0; i < allEnemy.Count; i++)
+                                    {
+                                        SetPosition(allEnemy[i]);
+                                    }
+                                }); ;
+                            }
+                        }
                     }
                     else
                     {
@@ -123,7 +142,7 @@ public class EnemyController : MonoBehaviour
             {
                 allEnemy.Add(enemys[temp]);
                 enemys.Remove(enemys[temp]);
-                enemys.Remove(enemys[temp]);
+                //enemys.Remove(enemys[temp]);
             });
             //SetPosition(wave2AllEnemy[temp]);
         }

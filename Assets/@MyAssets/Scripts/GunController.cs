@@ -97,7 +97,18 @@ public class GunController : MonoBehaviour
                 enemy = enemyController.allEnemy.Find(x => x.isTargeted == false);
                 if (enemy)
                 {
-                    enemy.isTargeted = true;
+                    if (enemy.isBoss)
+                    {
+                        if (enemy.damage.Equals(1))
+                        {
+                            enemy.isTargeted = true;
+                        }
+                    }
+                    else
+                    {
+                        enemy.isTargeted = true;
+                    }
+
                     pos = enemy.damagePoint.position;
                 }
             }

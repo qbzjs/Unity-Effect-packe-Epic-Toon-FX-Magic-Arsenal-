@@ -6,7 +6,8 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public int damage=1;
+    public bool isBoss;
+    public int damage = 1;
     [SerializeField] NavMeshAgent _navMeshAgent;
     [SerializeField] Animator _anim;
     public Transform damagePoint;
