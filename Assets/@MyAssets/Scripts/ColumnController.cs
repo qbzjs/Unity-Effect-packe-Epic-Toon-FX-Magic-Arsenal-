@@ -19,12 +19,12 @@ public class ColumnController : MonoBehaviour
     {
         var t = spineCount.Equals(10) ? 0.3f : 0.05f;
         slotNumbers[0].transform.position = startPoint.position;
-        slotNumbers[0].number = Random.Range(0, 7);
+        slotNumbers[0].number = Random.Range(1, 7);
         slotNumbers[1].transform.position = centerPoint.position;
         slotNumbers[1].transform.DOMove(endPoint.position, t);
         slotNumbers[0].transform.DOMove(centerPoint.position, t).OnComplete(() =>
         {
-            slotNumbers[1].number = Random.Range(0, 7);
+            slotNumbers[1].number = Random.Range(1, 7);
             slotNumbers[1].transform.DOMove(centerPoint.position, t).From(startPoint.position);
             slotNumbers[0].transform.DOMove(endPoint.position, t).OnComplete(() =>
             {
@@ -32,6 +32,10 @@ public class ColumnController : MonoBehaviour
                 {
                     spineCount = 0;
                     StartCoroutine(Shoot());
+                    if (isFinalColumn)
+                    {
+                        SlotSpinController.instance.StopSpin();
+                    }
                     return;
                 }
                 spineCount++;
@@ -42,11 +46,12 @@ public class ColumnController : MonoBehaviour
 
     IEnumerator Shoot()
     {
+        var gameController = GameController.instance;
+        var slotSpinController = SlotSpinController.instance;
+        gameController.allGunController[slotNumbers[1].number - 1].ShowHighlightImage();
         yield return new WaitForSeconds(1);
         if (isFinalColumn)
         {
-            var gameController = GameController.instance;
-            var slotSpinController = SlotSpinController.instance;
             for (int i = 0; i < 3; i++)
             {
                 if (slotSpinController.allColumnControllers[i].slotNumbers[1].number != 0)

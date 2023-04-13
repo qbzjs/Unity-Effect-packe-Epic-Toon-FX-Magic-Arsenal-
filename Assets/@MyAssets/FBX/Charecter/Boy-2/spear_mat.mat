@@ -11,7 +11,9 @@ Material:
   m_Shader: {fileID: 4800000, guid: f8d49205b3b0a644195633020367689d, type: 3}
   m_ValidKeywords:
   - TCP2_DISABLE_WRAPPED_LIGHT
+  - TCP2_SPEC_TOON
   - _ALPHABLEND_ON
+  - _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
@@ -82,19 +84,19 @@ Material:
     - _RimMax: 0.85
     - _RimMin: 0.6
     - _RimStrength: 0.5
-    - _SmoothnessTextureChannel: 0
+    - _SmoothnessTextureChannel: 1
     - _SpecBlend: 1
     - _SpecSmooth: 1
     - _SpecularHighlights: 1
     - _SrcBlend: 5
     - _TCP2_DISABLE_WRAPPED_LIGHT: 1
     - _TCP2_RAMPTEXT: 0
-    - _TCP2_SPEC_TOON: 0
+    - _TCP2_SPEC_TOON: 1
     - _TCP2_STYLIZED_FRESNEL: 0
     - _UVSec: 0
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0.4245283, g: 0.15819687, b: 0.15819687, a: 1}
+    - _Color: {r: 0.9622642, g: 0.7185997, b: 0.22241013, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HColor: {r: 0.785, g: 0.785, b: 0.785, a: 1}
     - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.6}

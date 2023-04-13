@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 public class GunController : MonoBehaviour
 {
+    public bool isShooting;
     [SerializeField] GameObject gun;
     [SerializeField] Transform startPoint;
     [SerializeField] Transform endPoint;
     [SerializeField] ParticleSystem bullet, demage;
+    [SerializeField] Image highlightImage;
 
     Vector3 _startRot;
     List<Rigidbody> _allGunPart = new List<Rigidbody>();
@@ -16,7 +19,7 @@ public class GunController : MonoBehaviour
 
     private void Start()
     {
-        enemyController = EnemyController.instance;    
+        enemyController = EnemyController.instance;
         var temp = GetComponentsInChildren<Rigidbody>();
         for (int i = 0; i < temp.Length; i++)
         {
@@ -76,8 +79,14 @@ public class GunController : MonoBehaviour
         });*/
     }
 
+    public void ShowHighlightImage()
+    {
+        highlightImage.Show();
+    }
+
     IEnumerator ShootBullet(int count)
     {
+        isShooting = true;
         for (int i = 0; i < count; i++)
         {
             yield return new WaitForSeconds(0.5f);
@@ -98,7 +107,7 @@ public class GunController : MonoBehaviour
                 //bullet.transform.position = startPoint.position;
                 temp.gameObject.Show();
                 temp.transform.LookAt(pos);
-                temp.transform.DOMove(pos, 0.7f).SetEase(Ease.Linear).OnComplete(() =>
+                temp.transform.DOMove(pos, 10f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(() =>
                 {
                     gun.transform.DORotate(Vector3.zero, 0.2f);
                     //bullet.gameObject.Hide();
@@ -109,21 +118,32 @@ public class GunController : MonoBehaviour
                     efect.Play();
                     if (enemy)
                     {
-                        enemy.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() =>
+                        if (enemy.damage.Equals(1))
                         {
-                            enemyController.allEnemy.Remove(enemy);
-                            Destroy(enemy.gameObject);
-                            enemyController.CheckForNewWave();
-                            Destroy(efect);
-                        });
+                            enemy.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() =>
+                            {
+                                enemyController.allEnemy.Remove(enemy);
+                                Destroy(enemy.gameObject);
+                                enemyController.CheckForNewWave();
+                                Destroy(efect);
+                            });
+                        }
+                        else
+                        {
+                            enemy.isTargeted = false;
+                            enemy.damage--;
+                        }
                     }
 
                 });
             });
-            /*if (i.Equals(count - 1))
+            if (i.Equals(count - 1))
             {
-                GameController.instance.diceController.diceSpeenButton.Show();
-            }*/
+                yield return new WaitForSeconds(1);
+                isShooting = false;
+                highlightImage.Hide();
+                //GameController.instance.diceController.diceSpeenButton.Show();
+            }
         }
     }
 }
