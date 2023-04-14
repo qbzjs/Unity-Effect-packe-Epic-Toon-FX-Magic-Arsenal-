@@ -107,6 +107,12 @@ public class Enemy : MonoBehaviour
         _anim.SetBool("Walk", false);
     }
 
+    public void FallDown()
+    {
+        StopAgent();
+        SetAnimation("Falling");
+    }
+
     public void SetAnimation(String key, bool state)
     {
         _anim.SetBool(key, state);

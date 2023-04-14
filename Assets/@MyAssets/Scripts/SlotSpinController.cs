@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class SlotSpinController : MonoBehaviour
 {
     public static SlotSpinController instance;
     public List<ColumnController> allColumnControllers;
     public Image slotMachineUp, slotMachineDown;
+    [SerializeField] GameObject spinButton;
 
     public void Awake()
     {
@@ -23,7 +25,11 @@ public class SlotSpinController : MonoBehaviour
     }
     public void SpinAnimation()
     {
-        StartCoroutine(StartSpinAnimation());
+        spinButton.transform.DOScale(new Vector3(0.9f, 0.9f, 0.9f), 0.1f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            spinButton.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.Linear);
+            StartCoroutine(StartSpinAnimation());
+        });
     }
     IEnumerator StartSpinAnimation()
     {

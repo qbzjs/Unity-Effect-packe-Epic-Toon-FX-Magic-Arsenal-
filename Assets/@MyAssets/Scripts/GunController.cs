@@ -131,13 +131,22 @@ public class GunController : MonoBehaviour
                     {
                         if (enemy.damage.Equals(1))
                         {
-                            enemy.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() =>
+                            if (enemy.isBoss)
                             {
                                 enemyController.allEnemy.Remove(enemy);
-                                Destroy(enemy.gameObject);
-                                enemyController.CheckForNewWave();
+                                enemy.FallDown();
                                 Destroy(efect);
-                            });
+                            }
+                            else
+                            {
+                                enemy.transform.DOScale(Vector3.zero, 0.2f).OnComplete(() =>
+                                {
+                                    enemyController.allEnemy.Remove(enemy);
+                                    Destroy(enemy.gameObject);
+                                    enemyController.CheckForNewWave();
+                                    Destroy(efect);
+                                });
+                            }
                         }
                         else
                         {
