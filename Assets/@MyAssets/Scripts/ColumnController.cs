@@ -17,7 +17,7 @@ public class ColumnController : MonoBehaviour
 
     public void StartSpining()
     {
-        var t = spineCount.Equals(10) ? 0.3f : 0.05f;
+        var t = spineCount.Equals(7) ? 0.3f : 0.05f;
         slotNumbers[0].transform.position = startPoint.position;
         slotNumbers[0].number = Random.Range(1, 7);
         slotNumbers[1].transform.position = centerPoint.position;
@@ -28,7 +28,7 @@ public class ColumnController : MonoBehaviour
             slotNumbers[1].transform.DOMove(centerPoint.position, t).From(startPoint.position);
             slotNumbers[0].transform.DOMove(endPoint.position, t).OnComplete(() =>
             {
-                if (spineCount.Equals(10))
+                if (spineCount.Equals(7))
                 {
                     spineCount = 0;
                     StartCoroutine(Shoot());
@@ -49,7 +49,7 @@ public class ColumnController : MonoBehaviour
         var gameController = GameController.instance;
         var slotSpinController = SlotSpinController.instance;
         gameController.allGunController[slotNumbers[1].number - 1].ShowHighlightImage();
-        yield return new WaitForSeconds(1);
+        yield return new WaitForEndOfFrame();
         if (isFinalColumn)
         {
             for (int i = 0; i < 3; i++)

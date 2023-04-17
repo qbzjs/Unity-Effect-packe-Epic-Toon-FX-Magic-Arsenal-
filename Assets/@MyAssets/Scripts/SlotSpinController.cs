@@ -11,6 +11,7 @@ public class SlotSpinController : MonoBehaviour
     public List<ColumnController> allColumnControllers;
     public Image slotMachineUp, slotMachineDown;
     [SerializeField] GameObject spinButton;
+    Button _spinButton;
 
     public void Awake()
     {
@@ -23,18 +24,25 @@ public class SlotSpinController : MonoBehaviour
             instance = this;
         }
     }
+
+    private void Start()
+    {
+        _spinButton = spinButton.GetComponent<Button>();
+    }
+
     public void SpinAnimation()
     {
         spinButton.transform.DOScale(new Vector3(0.9f, 0.9f, 0.9f), 0.1f).SetEase(Ease.Linear).OnComplete(() =>
         {
+            _spinButton.interactable = false;
             spinButton.transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.Linear);
             StartCoroutine(StartSpinAnimation());
         });
     }
     IEnumerator StartSpinAnimation()
     {
-        slotMachineUp.gameObject.Hide();
-        slotMachineDown.gameObject.Show();
+        //slotMachineUp.gameObject.Hide();
+        //slotMachineDown.gameObject.Show();
         for (int i = 0; i < allColumnControllers.Count; i++)
         {
             yield return new WaitForEndOfFrame();
@@ -44,7 +52,8 @@ public class SlotSpinController : MonoBehaviour
 
     public void StopSpin()
     {
-        slotMachineDown.gameObject.Hide();
-        slotMachineUp.gameObject.Show();
+        //slotMachineDown.gameObject.Hide();
+        //slotMachineUp.gameObject.Show();
+        _spinButton.interactable = true;
     }
 }

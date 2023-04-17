@@ -14,7 +14,7 @@ public class EnemyController : MonoBehaviour
     public List<Enemy> wave2AllEnemy;
     public List<Enemy> wave3AllEnemy;
     public List<Enemy> wave4AllEnemy;
-    public Enemy enemyBoss;
+    public List<Enemy> enemyBoss;
 
     protected void Awake()
     {
@@ -72,15 +72,15 @@ public class EnemyController : MonoBehaviour
     int tempCount = 0;
     public void SetPosition(Enemy enemy)
     {
-        var pos = GameController.instance.allGunController[tempCount].transform.position;
+        /*var pos = GameController.instance.allGunController[tempCount].transform.position;
         tempCount++;
         //var angle = ticketController.stadingPoint.eulerAngles;
         if (tempCount.Equals(6))
         {
             tempCount = 0;
-        }
+        }*/
 
-        enemy.SetTarget(pos);
+        enemy.SetTarget(enemy.target.position);
     }
 
     public void CheckForNewWave()
@@ -96,22 +96,23 @@ public class EnemyController : MonoBehaviour
                     {
                         if (allEnemy.Count.Equals(0))
                         {
-                            if (enemyBoss == null)
+                            StartCoroutine(ActiveWave2(enemyBoss));
+                            /*if (enemyBoss == null)
                             {
                                 LevelManager.instance.WinLevel();
                             }
-                            else
-                            {
-                                enemyBoss.transform.DOScale(Vector3.one, 0.2f).OnComplete(() =>
-                                {
-                                    allEnemy.Add(enemyBoss);
-                                    enemyBoss = null;
-                                    for (int i = 0; i < allEnemy.Count; i++)
-                                    {
-                                        SetPosition(allEnemy[i]);
-                                    }
-                                }); ;
-                            }
+                            else*/
+                            //{
+                            /* enemyBoss.transform.DOScale(Vector3.one, 0.2f).OnComplete(() =>
+                                 {
+                                     allEnemy.Add(enemyBoss);
+                                     enemyBoss = null;
+                                     for (int i = 0; i < allEnemy.Count; i++)
+                                     {
+                                         SetPosition(allEnemy[i]);
+                                     }
+                                 }); ;*/
+                            //}
                         }
                     }
                     else

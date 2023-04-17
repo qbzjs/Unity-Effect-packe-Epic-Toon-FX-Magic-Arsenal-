@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour
 
     public bool isGirl;
     public bool isTargeted;
+    public Transform target;
+
     EnemyController _enemyController;
     Action _action;
     Vector3 _target;

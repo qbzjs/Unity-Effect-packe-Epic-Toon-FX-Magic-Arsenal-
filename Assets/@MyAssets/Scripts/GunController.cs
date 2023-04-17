@@ -44,6 +44,7 @@ public class GunController : MonoBehaviour
     {
         var pos = endPoint.position;
         StartCoroutine(ShootBullet(count));
+        //sir meri 18 and 20 last final exam he to me exam dene jaraha hu, 19 ko me work from home kar sakta hu ?
         //var enemyController = EnemyController.instance;
         /*Enemy enemy = null;
         if (enemyController.allEnemy.Count != 0)
@@ -112,13 +113,13 @@ public class GunController : MonoBehaviour
                     pos = enemy.damagePoint.position;
                 }
             }
-            gun.transform.DOLookAt(pos, 0.2f).OnComplete(() =>
+            gun.transform.DOLookAt(pos, 0.1f).OnComplete(() =>
             {
                 var temp = Instantiate(bullet, startPoint.position, Quaternion.identity);
                 //bullet.transform.position = startPoint.position;
                 temp.gameObject.Show();
                 temp.transform.LookAt(pos);
-                temp.transform.DOMove(pos, 10f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(() =>
+                temp.transform.DOMove(pos, 12f).SetSpeedBased().SetEase(Ease.Linear).OnComplete(() =>
                 {
                     gun.transform.DORotate(Vector3.zero, 0.2f);
                     //bullet.gameObject.Hide();
@@ -136,6 +137,7 @@ public class GunController : MonoBehaviour
                                 enemyController.allEnemy.Remove(enemy);
                                 enemy.FallDown();
                                 Destroy(efect);
+                                enemy.transform.DOScale(Vector3.zero, 0.2f).SetDelay(3);
                             }
                             else
                             {
@@ -143,7 +145,7 @@ public class GunController : MonoBehaviour
                                 {
                                     enemyController.allEnemy.Remove(enemy);
                                     Destroy(enemy.gameObject);
-                                    enemyController.CheckForNewWave();
+                                    //enemyController.CheckForNewWave();
                                     Destroy(efect);
                                 });
                             }
