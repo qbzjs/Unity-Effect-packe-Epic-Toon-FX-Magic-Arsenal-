@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public bool isBoss;
+    public bool isBoss,isDino;
     public int damage = 1;
     [SerializeField] NavMeshAgent _navMeshAgent;
     [SerializeField] Animator _anim;

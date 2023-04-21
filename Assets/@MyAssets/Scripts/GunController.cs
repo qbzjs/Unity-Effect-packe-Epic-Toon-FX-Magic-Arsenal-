@@ -132,7 +132,7 @@ public class GunController : MonoBehaviour
                     {
                         if (enemy.damage.Equals(1))
                         {
-                            if (enemy.isBoss)
+                            if (enemy.isBoss && !enemy.isDino)
                             {
                                 enemyController.allEnemy.Remove(enemy);
                                 enemy.FallDown();
